@@ -10,6 +10,7 @@ DO NOT deploy this in production or on public-facing servers.
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from sqlalchemy import text  # ADDED THIS!
 import os
 from datetime import datetime
 
@@ -62,19 +63,31 @@ def products():
     category = request.args.get('category', '')
     search = request.args.get('search', '')
     
-    # Simple implementation for now - we'll add vulnerable/secure versions later
-    query = Product.query
-    
-    if category:
-        query = query.filter_by(category=category)
-    
-    if search:
-        # VULNERABLE: SQL injection here!
-        # We'll implement this properly in vulnerable/products.py
-        query = query.filter(Product.name.like(f'%{search}%'))
-    
-    results = query.all()
     categories = ['Electronics', 'Clothing', 'Books', 'Home', 'Sports']
+    
+    # VULNERABLE: SQL injection in search!
+    if search:
+        # Raw SQL query - INTENTIONALLY VULNERABLE!
+        sql = f"SELECT * FROM products WHERE name LIKE '%{search}%'"
+        
+        if category:
+            sql += f" AND category = '{category}'"
+        
+        # Execute raw SQL (vulnerable to injection)
+        result_rows = db.session.execute(text(sql)).fetchall()
+        
+        # Convert results to Product objects
+        results = []
+        for row in result_rows:
+            product = Product.query.get(row[0])  # row[0] is the id
+            if product:
+                results.append(product)
+    elif category:
+        # Category filter only (still using ORM safely)
+        results = Product.query.filter_by(category=category).all()
+    else:
+        # No filters - show all
+        results = Product.query.all()
     
     return render_template('products.html', 
                          products=results, 
@@ -386,12 +399,15 @@ def init_db():
 
 if __name__ == '__main__':
     # Create database directory if it doesn't exist
-    os.makedirs('app/data', exist_ok=True)
+    db_dir = os.path.join(basedir, 'data')
+    os.makedirs(db_dir, exist_ok=True)
     
     # Create database if it doesn't exist
-    if not os.path.exists('app/data/ecommerce.db'):
+    db_path = os.path.join(db_dir, 'ecommerce.db')
+    if not os.path.exists(db_path):
         print("[*] Database not found, creating...")
         init_db()
+        print(f"[!] Database created at: {db_path}")
         print("[!] Run 'python app/data/seed_data.py' to populate with sample data")
     
     # Display startup message
@@ -407,6 +423,7 @@ if __name__ == '__main__':
     print("Default credentials:")
     print("  Admin: admin / admin123")
     print("  User:  user / password\n")
+    print(f"Database location: {db_path}")
     print(f"Access at: http://localhost:5001\n")
     
     # Run Flask app
