@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Error - SafeBuyr E-commerce{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto text-center">
+    
+    <div class="bg-white rounded-lg shadow-lg p-12">
+        <div class="text-8xl mb-6">😕</div>
+        
+        <h1 class="text-4xl font-bold mb-4">Oops!</h1>
+        
+        {% if error %}
+            <p class="text-xl text-gray-600 mb-8">{{ error }}</p>
+        {% else %}
+            <p class="text-xl text-gray-600 mb-8">Something went wrong.</p>
+        {% endif %}
+        
+        <div class="flex gap-4 justify-center">
+            <a href="{{ url_for('index') }}" 
+               class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Go Home
+            </a>
+            <button onclick="history.back()" 
+                    class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                Go Back
+            </button>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

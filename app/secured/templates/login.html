@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Login - SafeBuyr E-commerce{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">Login</h1>
+        
+        <form action="{{ url_for('login') }}" method="POST" class="space-y-4">
+            {{ csrf_token() }}
+            
+            <!-- Username -->
+            <div>
+                <label for="username" class="block text-sm font-medium mb-2">Username</label>
+                <input type="text" 
+                       id="username" 
+                       name="username" 
+                       required
+                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Enter your username">
+            </div>
+            
+            <!-- Password -->
+            <div>
+                <label for="password" class="block text-sm font-medium mb-2">Password</label>
+                <input type="password" 
+                       id="password" 
+                       name="password" 
+                       required
+                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Enter your password">
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" 
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Login
+            </button>
+        </form>
+        
+        <!-- Register Link -->
+        <div class="mt-6 text-center">
+            <p class="text-gray-600">
+                Don't have an account? 
+                <a href="{{ url_for('register') }}" class="text-blue-600 hover:underline">Register here</a>
+            </p>
+        </div>
+        
+        <!-- Test Credentials -->
+        <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+            <h3 class="font-semibold text-sm mb-2">🔓 Test Credentials</h3>
+            <div class="text-sm space-y-1">
+                <p><strong>Admin:</strong> <code class="bg-gray-200 px-2 py-1 rounded">admin</code> / <code class="bg-gray-200 px-2 py-1 rounded">admin123</code></p>
+                <p><strong>User:</strong> <code class="bg-gray-200 px-2 py-1 rounded">user</code> / <code class="bg-gray-200 px-2 py-1 rounded">password</code></p>
+            </div>
+        </div>
+        
+        <!-- Security Notice -->
+        <div class="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-sm mb-2">✅ Security Features</h3>
+            <ul class="text-xs text-gray-700 space-y-1">
+                <li>✓ CSRF protection enabled</li>
+                <li>✓ SQL injection blocked (parameterized queries)</li>
+                <li>✓ bcrypt password hashing</li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - SafeBuyr E-commerce{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+        <p class="text-gray-600">Welcome, {{ current_user.username }}!</p>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Total Users -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Total Users</p>
+                    <p class="text-3xl font-bold">{{ stats.total_users }}</p>
+                </div>
+                <div class="text-4xl">👥</div>
+            </div>
+        </div>
+        
+        <!-- Total Products -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Total Products</p>
+                    <p class="text-3xl font-bold">{{ stats.total_products }}</p>
+                </div>
+                <div class="text-4xl">📦</div>
+            </div>
+        </div>
+        
+        <!-- Total Orders -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Total Orders</p>
+                    <p class="text-3xl font-bold">{{ stats.total_orders }}</p>
+                </div>
+                <div class="text-4xl">🛒</div>
+            </div>
+        </div>
+        
+        <!-- Pending Orders -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Pending Orders</p>
+                    <p class="text-3xl font-bold text-yellow-600">{{ stats.pending_orders }}</p>
+                </div>
+                <div class="text-4xl">⏳</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="{{ url_for('products') }}" 
+               class="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-center">
+                <div class="text-3xl mb-2">📋</div>
+                <p class="font-semibold">View Products</p>
+            </a>
+            <a href="{{ url_for('my_orders') }}" 
+               class="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-center">
+                <div class="text-3xl mb-2">📦</div>
+                <p class="font-semibold">View Orders</p>
+            </a>
+            <a href="{{ url_for('index') }}" 
+               class="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-center">
+                <div class="text-3xl mb-2">🏠</div>
+                <p class="font-semibold">Back to Store</p>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Vulnerability Information -->
+    <div class="bg-gradient-to-r from-red-50 to-orange-50 rounded-lg border-2 border-red-200 p-6">
+        <h2 class="text-xl font-bold mb-4 text-red-800">⚠️ Admin Panel Vulnerabilities</h2>
+        <div class="space-y-3 text-sm">
+            <div class="bg-white p-3 rounded">
+                <p class="font-semibold">Command Injection</p>
+                <p class="text-gray-600">Admin panel functionality may be vulnerable to OS command injection (to be implemented)</p>
+            </div>
+            <div class="bg-white p-3 rounded">
+                <p class="font-semibold">Missing Authorization Checks</p>
+                <p class="text-gray-600">Verify proper admin role checking on all admin endpoints</p>
+            </div>
+            <div class="bg-white p-3 rounded">
+                <p class="font-semibold">File Upload Vulnerabilities</p>
+                <p class="text-gray-600">Product image uploads may allow unrestricted file types (to be implemented)</p>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

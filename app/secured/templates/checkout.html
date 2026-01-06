@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - SafeBuyr E-commerce{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    
+    <h1 class="text-3xl font-bold mb-8">Checkout</h1>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Checkout Form -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-6">Shipping Information</h2>
+                
+                <form action="{{ url_for('checkout') }}" method="POST" class="space-y-4">
+                    {{ csrf_token() }}
+                    
+                    <!-- Shipping Address -->
+                    <div>
+                        <label for="address" class="block text-sm font-medium mb-2">Shipping Address *</label>
+                        <textarea id="address" 
+                                  name="address" 
+                                  rows="4" 
+                                  required
+                                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  placeholder="Enter your full shipping address"></textarea>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Place Order
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+                <h2 class="text-xl font-bold mb-4">Order Summary</h2>
+                
+                <div class="space-y-3 mb-6">
+                    {% for item in cart_items %}
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">{{ item.product.name }} × {{ item.quantity }}</span>
+                            <span class="font-medium">${{ "%.2f"|format(item.product.price * item.quantity) }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="border-t pt-4 mb-4">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span>${{ "%.2f"|format(total) }}</span>
+                    </div>
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-gray-600">Shipping</span>
+                        <span class="text-green-600">FREE</span>
+                    </div>
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-gray-600">Tax</span>
+                        <span>${{ "%.2f"|format(total * 0.08) }}</span>
+                    </div>
+                </div>
+                
+                <div class="border-t pt-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-bold">Total</span>
+                        <span class="text-2xl font-bold text-blue-600">${{ "%.2f"|format(total * 1.08) }}</span>
+                    </div>
+                </div>
+                
+                <!-- Security Badge -->
+                <div class="mt-6 p-3 bg-green-50 rounded border border-green-200">
+                    <p class="text-xs text-green-700 text-center">
+                        🔒 Secure Checkout with CSRF Protection
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+{% endblock %}
