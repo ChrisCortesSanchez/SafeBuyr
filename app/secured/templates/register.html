@@ -9,7 +9,7 @@
         <h1 class="text-3xl font-bold mb-6 text-center">Create Account</h1>
         
         <form action="{{ url_for('register') }}" method="POST" class="space-y-4">
-            {{ csrf_token() }}
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             
             <!-- Username -->
             <div>

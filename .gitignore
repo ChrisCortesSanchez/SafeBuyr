@@ -1,3 +1,7 @@
+# VulnHub E-commerce Security Project
+# .gitignore
+
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -5,16 +9,53 @@ __pycache__/
 .Python
 venv/
 env/
-*.egg-info/
-dist/
-build/
+ENV/
+.venv
+
+# Database files (generated)
+*.db
+*.sqlite
+*.sqlite3
+
+# Scanner generated reports
+docs/
+security_report_*.html
+security_report_*.txt
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# OS
+*~
 .DS_Store
-Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Keep example reports
+!examples/
+!examples/**/*.html
+!examples/**/*.txt
+!examples/**/*.png
+!examples/**/*.jpg
+
+# Keep database seed scripts
+!**/seed_data.py
+!**/seed_data_secure.py

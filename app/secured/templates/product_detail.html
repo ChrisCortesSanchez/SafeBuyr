@@ -54,7 +54,7 @@
                 {% if current_user.is_authenticated %}
                     {% if product.stock > 0 %}
                         <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="space-y-4">
-                            {{ csrf_token() }}
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             
                             <div>
                                 <label class="block text-sm font-medium mb-2">Quantity:</label>
@@ -88,7 +88,7 @@
             <div class="mb-8 p-6 bg-gray-50 rounded-lg">
                 <h3 class="font-bold mb-4">Write a Review</h3>
                 <form action="{{ url_for('add_review', product_id=product.id) }}" method="POST" class="space-y-4">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     
                     <div>
                         <label class="block text-sm font-medium mb-2">Rating:</label>

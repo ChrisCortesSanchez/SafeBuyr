@@ -15,7 +15,7 @@
                 <h2 class="text-xl font-bold mb-6">Shipping Information</h2>
                 
                 <form action="{{ url_for('checkout') }}" method="POST" class="space-y-4">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     
                     <!-- Shipping Address -->
                     <div>
