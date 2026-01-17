@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  vulnhub-vulnerable:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.vulnerable
+    container_name: vulnhub-vulnerable
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    volumes:
+      - ./app:/app/app
+      - ./exploits:/app/exploits
+      - ./scanner:/app/scanner
+    networks:
+      - vulnhub-network
+    restart: unless-stopped
+
+  vulnhub-secure:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.secure
+    container_name: vulnhub-secure
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - SECURE_MODE=1
+    volumes:
+      - ./app:/app/app
+      - ./scanner:/app/scanner
+    networks:
+      - vulnhub-network
+    restart: unless-stopped
+
+networks:
+  vulnhub-network:
+    driver: bridge
