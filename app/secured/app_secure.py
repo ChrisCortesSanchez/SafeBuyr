@@ -30,7 +30,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import models from parent directory
-from models import db, User, Product, Order, Review
+from app.models import db, User, Product, Order, Review
 
 # Initialize Flask with correct paths for templates and static files
 app = Flask(__name__,

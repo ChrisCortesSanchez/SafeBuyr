@@ -30,7 +30,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 SECURE_MODE = os.environ.get('SECURE_MODE', 'false').lower() == 'true'
 
 # Initialize database first
-from models import db
+from app.models import db
 db.init_app(app)
 
 # Initialize login manager
