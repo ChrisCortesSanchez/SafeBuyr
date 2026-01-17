@@ -38,7 +38,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 # Import models AFTER db is initialized
-from models import User, Product, Order, OrderItem, CartItem, Review
+from app.models import User, Product, Order, OrderItem, CartItem, Review
 
 @login_manager.user_loader
 def load_user(user_id):
