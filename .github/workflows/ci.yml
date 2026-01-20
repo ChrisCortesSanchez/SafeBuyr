@@ -104,7 +104,7 @@ jobs:
     
     - name: Start secure application
       run: |
-        nohup python -m app.secured.app > secure.log 2>&1 &
+        nohup python -m app.secured.app_secure > secure.log 2>&1 &
         echo $! > secure.pid
         sleep 5
     
