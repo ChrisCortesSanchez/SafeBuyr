@@ -124,7 +124,7 @@ def seed_database():
                 'price': 1299.99,
                 'stock': 10,
                 'category': 'Electronics',
-                'image_url': 'https://via.placeholder.com/300x300?text=Laptop'
+                'image_url': 'https://picsum.photos/seed/laptop/400/300'
             },
             {
                 'name': 'Smartphone X',
@@ -132,7 +132,7 @@ def seed_database():
                 'price': 899.99,
                 'stock': 25,
                 'category': 'Electronics',
-                'image_url': 'https://via.placeholder.com/300x300?text=Phone'
+                'image_url': 'https://picsum.photos/seed/smartphone/400/300'
             },
             {
                 'name': 'Wireless Headphones',
@@ -140,7 +140,7 @@ def seed_database():
                 'price': 199.99,
                 'stock': 50,
                 'category': 'Electronics',
-                'image_url': 'https://via.placeholder.com/300x300?text=Headphones'
+                'image_url': 'https://picsum.photos/seed/headphones/400/300'
             },
             {
                 'name': 'Running Shoes',
@@ -148,7 +148,7 @@ def seed_database():
                 'price': 89.99,
                 'stock': 100,
                 'category': 'Sports',
-                'image_url': 'https://via.placeholder.com/300x300?text=Shoes'
+                'image_url': 'https://picsum.photos/seed/shoes/400/300'
             },
             {
                 'name': 'Yoga Mat',
@@ -156,7 +156,7 @@ def seed_database():
                 'price': 29.99,
                 'stock': 75,
                 'category': 'Sports',
-                'image_url': 'https://via.placeholder.com/300x300?text=Yoga+Mat'
+                'image_url': 'https://picsum.photos/seed/yoga/400/300'
             },
             {
                 'name': 'Coffee Maker',
@@ -164,7 +164,7 @@ def seed_database():
                 'price': 79.99,
                 'stock': 30,
                 'category': 'Home & Garden',
-                'image_url': 'https://via.placeholder.com/300x300?text=Coffee+Maker'
+                'image_url': 'https://picsum.photos/seed/coffee/400/300'
             },
             {
                 'name': 'Python Programming Book',
@@ -172,7 +172,7 @@ def seed_database():
                 'price': 39.99,
                 'stock': 50,
                 'category': 'Books',
-                'image_url': 'https://via.placeholder.com/300x300?text=Python+Book'
+                'image_url': 'https://picsum.photos/seed/python-book/400/300'
             },
             {
                 'name': 'Gaming Mouse',
@@ -180,7 +180,7 @@ def seed_database():
                 'price': 59.99,
                 'stock': 40,
                 'category': 'Electronics',
-                'image_url': 'https://via.placeholder.com/300x300?text=Gaming+Mouse'
+                'image_url': 'https://picsum.photos/seed/gaming-mouse/400/300'
             },
             {
                 'name': 'Backpack',
@@ -188,7 +188,7 @@ def seed_database():
                 'price': 49.99,
                 'stock': 60,
                 'category': 'Clothing',
-                'image_url': 'https://via.placeholder.com/300x300?text=Backpack'
+                'image_url': 'https://picsum.photos/seed/backpack/400/300'
             },
             {
                 'name': 'Water Bottle',
@@ -196,7 +196,7 @@ def seed_database():
                 'price': 24.99,
                 'stock': 100,
                 'category': 'Sports',
-                'image_url': 'https://via.placeholder.com/300x300?text=Water+Bottle'
+                'image_url': 'https://picsum.photos/seed/bottle/400/300'
             }
         ]
         

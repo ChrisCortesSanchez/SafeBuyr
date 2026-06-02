@@ -64,15 +64,22 @@
                 {% for product in products %}
                     <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
                         <!-- Product Image -->
-                        <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                            <span class="text-6xl">
-                                {% if product.category == 'Electronics' %}💻
-                                {% elif product.category == 'Clothing' %}👕
-                                {% elif product.category == 'Books' %}📚
-                                {% elif product.category == 'Home' %}🏠
-                                {% elif product.category == 'Sports' %}⚽
-                                {% else %}📦{% endif %}
-                            </span>
+                        <div class="h-48 overflow-hidden bg-gray-100">
+                            {% if product.image_url %}
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}"
+                                     class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                                    <span class="text-6xl">
+                                        {% if product.category == 'Electronics' %}💻
+                                        {% elif product.category == 'Clothing' %}👕
+                                        {% elif product.category == 'Books' %}📚
+                                        {% elif product.category == 'Home' %}🏠
+                                        {% elif product.category == 'Sports' %}⚽
+                                        {% else %}📦{% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
                         </div>
                         
                         <!-- Product Info -->
