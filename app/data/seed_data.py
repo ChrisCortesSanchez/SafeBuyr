@@ -78,7 +78,7 @@ def seed_products():
             'price': 1299.99,
             'stock': 25,
             'category': 'Electronics',
-            'image_url': 'https://picsum.photos/seed/laptop/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Wireless Mouse',
@@ -86,7 +86,7 @@ def seed_products():
             'price': 29.99,
             'stock': 150,
             'category': 'Electronics',
-            'image_url': 'https://picsum.photos/seed/mouse/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'USB-C Hub',
@@ -94,7 +94,7 @@ def seed_products():
             'price': 49.99,
             'stock': 80,
             'category': 'Electronics',
-            'image_url': 'https://picsum.photos/seed/usbhub/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1591290619618-904f6dd935e3?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Mechanical Keyboard',
@@ -102,7 +102,7 @@ def seed_products():
             'price': 89.99,
             'stock': 60,
             'category': 'Electronics',
-            'image_url': 'https://picsum.photos/seed/keyboard/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1625948515291-69613efd103f?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': '27" 4K Monitor',
@@ -110,7 +110,7 @@ def seed_products():
             'price': 399.99,
             'stock': 35,
             'category': 'Electronics',
-            'image_url': 'https://picsum.photos/seed/monitor/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=80'
         },
 
         # Clothing
@@ -120,7 +120,7 @@ def seed_products():
             'price': 19.99,
             'stock': 200,
             'category': 'Clothing',
-            'image_url': 'https://picsum.photos/seed/tshirt/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Denim Jeans',
@@ -128,7 +128,7 @@ def seed_products():
             'price': 59.99,
             'stock': 120,
             'category': 'Clothing',
-            'image_url': 'https://picsum.photos/seed/jeans/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Running Shoes',
@@ -136,7 +136,7 @@ def seed_products():
             'price': 79.99,
             'stock': 90,
             'category': 'Clothing',
-            'image_url': 'https://picsum.photos/seed/shoes/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Hoodie',
@@ -144,7 +144,7 @@ def seed_products():
             'price': 44.99,
             'stock': 75,
             'category': 'Clothing',
-            'image_url': 'https://picsum.photos/seed/hoodie/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80'
         },
 
         # Books
@@ -154,7 +154,7 @@ def seed_products():
             'price': 39.99,
             'stock': 50,
             'category': 'Books',
-            'image_url': 'https://picsum.photos/seed/security-book/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Python for Hackers',
@@ -162,7 +162,7 @@ def seed_products():
             'price': 44.99,
             'stock': 65,
             'category': 'Books',
-            'image_url': 'https://picsum.photos/seed/python-book/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'The Art of Exploitation',
@@ -170,7 +170,7 @@ def seed_products():
             'price': 49.99,
             'stock': 40,
             'category': 'Books',
-            'image_url': 'https://picsum.photos/seed/exploit-book/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80'
         },
 
         # Home
@@ -180,7 +180,7 @@ def seed_products():
             'price': 89.99,
             'stock': 45,
             'category': 'Home',
-            'image_url': 'https://picsum.photos/seed/coffee/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1565452344518-47faca79dc69?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Desk Lamp',
@@ -188,7 +188,7 @@ def seed_products():
             'price': 34.99,
             'stock': 100,
             'category': 'Home',
-            'image_url': 'https://picsum.photos/seed/lamp/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Standing Desk',
@@ -196,7 +196,7 @@ def seed_products():
             'price': 499.99,
             'stock': 20,
             'category': 'Home',
-            'image_url': 'https://picsum.photos/seed/desk/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=800&q=80'
         },
 
         # Sports
@@ -206,7 +206,7 @@ def seed_products():
             'price': 29.99,
             'stock': 85,
             'category': 'Sports',
-            'image_url': 'https://picsum.photos/seed/yoga/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Dumbbell Set',
@@ -214,7 +214,7 @@ def seed_products():
             'price': 199.99,
             'stock': 30,
             'category': 'Sports',
-            'image_url': 'https://picsum.photos/seed/dumbbells/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Resistance Bands',
@@ -222,7 +222,7 @@ def seed_products():
             'price': 24.99,
             'stock': 120,
             'category': 'Sports',
-            'image_url': 'https://picsum.photos/seed/bands/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1517130038641-a774d04afb3c?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Water Bottle',
@@ -230,7 +230,7 @@ def seed_products():
             'price': 19.99,
             'stock': 150,
             'category': 'Sports',
-            'image_url': 'https://picsum.photos/seed/bottle/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80'
         },
         {
             'name': 'Fitness Tracker',
@@ -238,7 +238,7 @@ def seed_products():
             'price': 129.99,
             'stock': 55,
             'category': 'Sports',
-            'image_url': 'https://picsum.photos/seed/tracker/400/300'
+            'image_url': 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=800&q=80'
         }
     ]
     

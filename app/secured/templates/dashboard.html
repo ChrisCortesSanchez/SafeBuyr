@@ -7,25 +7,25 @@
 
     <div class="mb-8">
         <h1 class="text-2xl font-bold">Dashboard</h1>
-        <p class="text-neutral-500">Welcome back, {{ current_user.username }}.</p>
+        <p class="text-slate-500">Welcome back, {{ current_user.username }}.</p>
     </div>
 
     <!-- Stats -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         {% set cards = [
-            ('Total users', stats.total_users, 'text-neutral-900', 'M16 14a4 4 0 10-8 0M12 7a3 3 0 100-6 3 3 0 000 6zM3 20a6 6 0 0118 0'),
-            ('Products', stats.total_products, 'text-neutral-900', 'M4 7h16l-1 12H5L4 7zM9 7V5a3 3 0 016 0v2'),
-            ('Orders', stats.total_orders, 'text-neutral-900', 'M3 3h2l.4 2M7 13h10l3-8H6.4M7 13L5.4 5'),
+            ('Total users', stats.total_users, 'text-slate-900', 'M16 14a4 4 0 10-8 0M12 7a3 3 0 100-6 3 3 0 000 6zM3 20a6 6 0 0118 0'),
+            ('Products', stats.total_products, 'text-slate-900', 'M4 7h16l-1 12H5L4 7zM9 7V5a3 3 0 016 0v2'),
+            ('Orders', stats.total_orders, 'text-slate-900', 'M3 3h2l.4 2M7 13h10l3-8H6.4M7 13L5.4 5'),
             ('Pending', stats.pending_orders, 'text-amber-600', 'M12 8v4l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z')
         ] %}
         {% for label, value, color, path in cards %}
             <div class="card p-5">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-neutral-500">{{ label }}</p>
+                        <p class="text-sm text-slate-500">{{ label }}</p>
                         <p class="text-3xl font-bold mt-1 {{ color }}">{{ value }}</p>
                     </div>
-                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand">
+                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="{{ path }}"/></svg>
                     </span>
                 </div>
@@ -37,16 +37,16 @@
     <div class="card p-6">
         <h2 class="font-semibold mb-4">Quick actions</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="{{ url_for('products') }}" class="flex items-center gap-3 p-4 rounded-xl border border-neutral-200 hover:border-brand hover:bg-brand-50/50 transition">
-                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16l-1 12H5L4 7z"/></svg></span>
+            <a href="{{ url_for('products') }}" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-brand hover:bg-brand-50/50 transition">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16l-1 12H5L4 7z"/></svg></span>
                 <span class="font-medium text-sm">Browse products</span>
             </a>
-            <a href="{{ url_for('my_orders') }}" class="flex items-center gap-3 p-4 rounded-xl border border-neutral-200 hover:border-brand hover:bg-brand-50/50 transition">
-                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5h6m-7 4h8m-9 4h10M5 19h14"/></svg></span>
+            <a href="{{ url_for('my_orders') }}" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-brand hover:bg-brand-50/50 transition">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5h6m-7 4h8m-9 4h10M5 19h14"/></svg></span>
                 <span class="font-medium text-sm">View orders</span>
             </a>
-            <a href="{{ url_for('index') }}" class="flex items-center gap-3 p-4 rounded-xl border border-neutral-200 hover:border-brand hover:bg-brand-50/50 transition">
-                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 11l9-8 9 8M5 10v10h14V10"/></svg></span>
+            <a href="{{ url_for('index') }}" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-brand hover:bg-brand-50/50 transition">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 11l9-8 9 8M5 10v10h14V10"/></svg></span>
                 <span class="font-medium text-sm">Back to store</span>
             </a>
         </div>

@@ -11,26 +11,26 @@
         <div class="space-y-4">
             {% for order in orders %}
                 <div class="card overflow-hidden">
-                    <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 bg-neutral-50 border-b border-neutral-100">
+                    <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 bg-slate-50 border-b border-slate-100">
                         <div class="flex flex-wrap items-center gap-x-8 gap-y-1 text-sm">
                             <div>
-                                <p class="text-xs text-neutral-400 uppercase tracking-wide">Order placed</p>
-                                <p class="font-medium text-neutral-800">{{ order.created_at.strftime('%b %d, %Y') }}</p>
+                                <p class="text-xs text-slate-400 uppercase tracking-wide">Order placed</p>
+                                <p class="font-medium text-slate-800">{{ order.created_at.strftime('%b %d, %Y') }}</p>
                             </div>
                             <div>
-                                <p class="text-xs text-neutral-400 uppercase tracking-wide">Total</p>
-                                <p class="font-medium text-neutral-800">${{ "%.2f"|format(order.total_price) }}</p>
+                                <p class="text-xs text-slate-400 uppercase tracking-wide">Total</p>
+                                <p class="font-medium text-slate-800">${{ "%.2f"|format(order.total_price) }}</p>
                             </div>
                             <div>
-                                <p class="text-xs text-neutral-400 uppercase tracking-wide">Order #</p>
-                                <p class="font-medium text-neutral-800">{{ order.id }}</p>
+                                <p class="text-xs text-slate-400 uppercase tracking-wide">Order #</p>
+                                <p class="font-medium text-slate-800">{{ order.id }}</p>
                             </div>
                         </div>
                         <span class="chip
                             {% if order.status == 'pending' %}bg-amber-100 text-amber-700
                             {% elif order.status == 'shipped' %}bg-sky-100 text-sky-700
                             {% elif order.status == 'delivered' %}bg-emerald-100 text-emerald-700
-                            {% else %}bg-neutral-100 text-neutral-600{% endif %}">
+                            {% else %}bg-slate-100 text-slate-600{% endif %}">
                             {{ order.status|capitalize }}
                         </span>
                     </div>
@@ -51,11 +51,11 @@
         </div>
     {% else %}
         <div class="card p-12 text-center">
-            <div class="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-neutral-400">
+            <div class="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16l-1 12H5L4 7zM9 7V5a3 3 0 016 0v2"/></svg>
             </div>
             <h2 class="text-lg font-semibold mb-1">No orders yet</h2>
-            <p class="text-neutral-500 mb-5">When you place an order, it’ll show up here.</p>
+            <p class="text-slate-500 mb-5">When you place an order, it’ll show up here.</p>
             <a href="{{ url_for('products') }}" class="btn btn-primary">Start shopping</a>
         </div>
     {% endif %}

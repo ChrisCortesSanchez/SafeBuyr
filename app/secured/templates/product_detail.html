@@ -6,41 +6,41 @@
 <div class="max-w-5xl mx-auto">
 
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-sm text-neutral-400 mb-6">
-        <a href="{{ url_for('index') }}" class="hover:text-neutral-700">Home</a>
+    <nav class="flex items-center gap-2 text-sm text-slate-400 mb-6">
+        <a href="{{ url_for('index') }}" class="hover:text-slate-700">Home</a>
         <span>/</span>
-        <a href="{{ url_for('products', category=product.category) }}" class="hover:text-neutral-700">{{ product.category }}</a>
+        <a href="{{ url_for('products', category=product.category) }}" class="hover:text-slate-700">{{ product.category }}</a>
         <span>/</span>
-        <span class="text-neutral-600 line-clamp-1">{{ product.name }}</span>
+        <span class="text-slate-600 line-clamp-1">{{ product.name }}</span>
     </nav>
 
     <!-- Product -->
     <div class="grid md:grid-cols-2 gap-8 mb-12">
         <div class="card overflow-hidden">
-            <div class="aspect-square bg-neutral-100">
+            <div class="aspect-square bg-slate-100">
                 {% if product.image_url %}
                     <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
                 {% else %}
-                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-neutral-100 to-neutral-200 text-6xl font-bold text-neutral-300">{{ product.name[:1]|upper }}</div>
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 text-6xl font-bold text-slate-300">{{ product.name[:1]|upper }}</div>
                 {% endif %}
             </div>
         </div>
 
         <div>
-            <span class="text-xs font-medium text-neutral-400 uppercase tracking-wide">{{ product.category }}</span>
+            <span class="text-xs font-medium text-slate-400 uppercase tracking-wide">{{ product.category }}</span>
             <h1 class="text-3xl font-bold mt-1 mb-3">{{ product.name }}</h1>
-            <div class="text-3xl font-bold text-neutral-900 mb-5">${{ "%.2f"|format(product.price) }}</div>
-            <p class="text-neutral-600 leading-relaxed mb-6">{{ product.description }}</p>
+            <div class="text-3xl font-bold text-slate-900 mb-5">${{ "%.2f"|format(product.price) }}</div>
+            <p class="text-slate-600 leading-relaxed mb-6">{{ product.description }}</p>
 
             <div class="flex items-center gap-2 mb-6 text-sm">
                 {% if product.stock > 0 %}
                     <span class="inline-flex items-center gap-1.5 text-emerald-600 font-medium">
                         <span class="h-2 w-2 rounded-full bg-emerald-500"></span> In stock
                     </span>
-                    <span class="text-neutral-400">· {{ product.stock }} available</span>
+                    <span class="text-slate-400">· {{ product.stock }} available</span>
                 {% else %}
-                    <span class="inline-flex items-center gap-1.5 text-neutral-400 font-medium">
-                        <span class="h-2 w-2 rounded-full bg-neutral-300"></span> Out of stock
+                    <span class="inline-flex items-center gap-1.5 text-slate-400 font-medium">
+                        <span class="h-2 w-2 rounded-full bg-slate-300"></span> Out of stock
                     </span>
                 {% endif %}
             </div>
@@ -50,7 +50,7 @@
                     <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="flex items-end gap-4">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <div>
-                            <label class="block text-sm font-medium text-neutral-700 mb-1.5">Quantity</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Quantity</label>
                             <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="field w-24">
                         </div>
                         <button type="submit" class="btn btn-primary flex-1">
@@ -65,9 +65,9 @@
                 <a href="{{ url_for('login') }}" class="btn btn-primary w-full">Sign in to purchase</a>
             {% endif %}
 
-            <div class="mt-6 grid grid-cols-2 gap-3 text-sm text-neutral-500">
-                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/></svg> Free shipping over $50</div>
-                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h11a5 5 0 010 10H9M3 10l4-4M3 10l4 4"/></svg> 30-day returns</div>
+            <div class="mt-6 grid grid-cols-2 gap-3 text-sm text-slate-500">
+                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/></svg> Free shipping over $50</div>
+                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h11a5 5 0 010 10H9M3 10l4-4M3 10l4 4"/></svg> 30-day returns</div>
             </div>
         </div>
     </div>
@@ -77,12 +77,12 @@
         <h2 class="text-xl font-bold mb-6">Customer reviews</h2>
 
         {% if current_user.is_authenticated %}
-            <div class="mb-8 p-5 rounded-xl bg-neutral-50 border border-neutral-100">
+            <div class="mb-8 p-5 rounded-xl bg-slate-50 border border-slate-100">
                 <h3 class="font-semibold mb-4">Write a review</h3>
                 <form action="{{ url_for('add_review', product_id=product.id) }}" method="POST" class="space-y-4">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div>
-                        <label class="block text-sm font-medium text-neutral-700 mb-1.5">Rating</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Rating</label>
                         <select name="rating" class="field">
                             <option value="5">★★★★★ — Excellent</option>
                             <option value="4">★★★★☆ — Very good</option>
@@ -92,40 +92,40 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-neutral-700 mb-1.5">Your review</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Your review</label>
                         <textarea name="comment" rows="4" maxlength="1000" class="field" placeholder="Share your thoughts about this product..."></textarea>
-                        <p class="text-xs text-neutral-400 mt-1">Maximum 1000 characters</p>
+                        <p class="text-xs text-slate-400 mt-1">Maximum 1000 characters</p>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit review</button>
                 </form>
             </div>
         {% else %}
-            <div class="mb-8 p-5 rounded-xl bg-neutral-50 border border-neutral-100 text-sm text-neutral-600">
-                <a href="{{ url_for('login') }}" class="text-brand font-medium hover:text-brand-700">Sign in</a> to write a review.
+            <div class="mb-8 p-5 rounded-xl bg-slate-50 border border-slate-100 text-sm text-slate-600">
+                <a href="{{ url_for('login') }}" class="text-brand-700 font-medium hover:text-brand-700">Sign in</a> to write a review.
             </div>
         {% endif %}
 
         {% if reviews %}
             <div class="space-y-5">
                 {% for review in reviews %}
-                    <div class="pb-5 border-b border-neutral-100 last:border-0">
+                    <div class="pb-5 border-b border-slate-100 last:border-0">
                         <div class="flex items-center justify-between mb-1.5">
                             <div class="flex items-center gap-3">
-                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-50 text-brand text-sm font-semibold">{{ review.user.username[:1]|upper }}</span>
+                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-50 text-brand-700 text-sm font-semibold">{{ review.user.username[:1]|upper }}</span>
                                 <div>
-                                    <span class="font-medium text-neutral-900">{{ review.user.username }}</span>
-                                    <span class="ml-2 text-amber-500 text-sm">{% for i in range(review.rating) %}★{% endfor %}<span class="text-neutral-200">{% for i in range(5 - review.rating) %}★{% endfor %}</span></span>
+                                    <span class="font-medium text-slate-900">{{ review.user.username }}</span>
+                                    <span class="ml-2 text-amber-500 text-sm">{% for i in range(review.rating) %}★{% endfor %}<span class="text-slate-200">{% for i in range(5 - review.rating) %}★{% endfor %}</span></span>
                                 </div>
                             </div>
-                            <span class="text-xs text-neutral-400">{{ review.created_at.strftime('%B %d, %Y') }}</span>
+                            <span class="text-xs text-slate-400">{{ review.created_at.strftime('%B %d, %Y') }}</span>
                         </div>
                         <!-- SECURE: XSS - comment rendered WITH escaping (no |safe filter) -->
-                        <div class="text-neutral-600 pl-11">{{ review.comment }}</div>
+                        <div class="text-slate-600 pl-11">{{ review.comment }}</div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="text-center py-10 text-neutral-400">
+            <div class="text-center py-10 text-slate-400">
                 <p>No reviews yet. Be the first to review this product.</p>
             </div>
         {% endif %}
