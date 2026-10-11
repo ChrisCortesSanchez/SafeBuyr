@@ -3,104 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}SafeBuyr E-commerce{% endblock %}</title>
-    
+    <title>{% block title %}SafeBuyr — Everyday essentials, delivered{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom styles -->
-    <style>
-        .flash-message {
-            animation: slideIn 0.3s ease-out;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc',
+                            400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca',
+                            800: '#3730a3', 900: '#312e81', DEFAULT: '#4f46e5',
+                        },
+                    },
+                    boxShadow: {
+                        card: '0 1px 2px 0 rgb(17 24 39 / 0.04), 0 1px 3px 0 rgb(17 24 39 / 0.07)',
+                        lift: '0 10px 30px -12px rgb(17 24 39 / 0.18)',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-neutral-50 text-neutral-800 antialiased; }
+            h1, h2, h3, h4 { @apply tracking-tight text-neutral-900; }
         }
-        @keyframes slideIn {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        @layer components {
+            .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-brand/30 disabled:opacity-60 disabled:cursor-not-allowed; }
+            .btn-primary { @apply bg-brand text-white hover:bg-brand-700 shadow-sm; }
+            .btn-secondary { @apply bg-white text-neutral-700 border border-neutral-200 hover:bg-neutral-50; }
+            .btn-dark { @apply bg-neutral-900 text-white hover:bg-neutral-800 shadow-sm; }
+            .card { @apply bg-white border border-neutral-200 rounded-xl shadow-card; }
+            .field { @apply w-full rounded-lg border border-neutral-300 bg-white px-3.5 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 transition focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none; }
+            .chip { @apply inline-flex items-center rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-600; }
+            .nav-link { @apply text-sm font-medium text-neutral-600 hover:text-neutral-900 transition; }
+            .cat-link { @apply whitespace-nowrap text-sm text-neutral-500 hover:text-brand transition; }
         }
+        .flash-message { animation: slideIn .3s ease-out; }
+        @keyframes slideIn { from { transform: translateY(-8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
-    
+
     {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
-    
-    <!-- Navigation Bar -->
-    <nav class="bg-blue-600 text-white shadow-lg">
+<body class="min-h-screen flex flex-col">
+
+    <!-- Announcement bar -->
+    <div class="bg-neutral-900 text-neutral-100 text-xs sm:text-sm">
+        <div class="container mx-auto px-4 py-2 text-center">
+            Free shipping on orders over $50 &nbsp;·&nbsp; 30-day returns
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-neutral-200">
         <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between py-4">
+            <div class="flex items-center gap-4 lg:gap-8 h-16">
                 <!-- Logo -->
-                <a href="{{ url_for('index') }}" class="text-2xl font-bold hover:text-blue-200 transition">
-                    🛒 SafeBuyr Shop
+                <a href="{{ url_for('index') }}" class="flex items-center gap-2 flex-shrink-0">
+                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l3-8H6.4M7 13L5.4 5M7 13l-2 5h12"/>
+                            <circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>
+                        </svg>
+                    </span>
+                    <span class="text-xl font-extrabold text-neutral-900">SafeBuyr</span>
                 </a>
-                
-                <!-- Navigation Links -->
-                <div class="flex items-center space-x-6">
-                    <a href="{{ url_for('index') }}" class="hover:text-blue-200 transition">Home</a>
-                    <a href="{{ url_for('products') }}" class="hover:text-blue-200 transition">Products</a>
-                    
+
+                <!-- Search -->
+                <form action="{{ url_for('products') }}" method="GET" class="hidden md:flex flex-1 max-w-xl">
+                    <div class="relative w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.3-4.3m1.8-4.7a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"/>
+                        </svg>
+                        <input type="text" name="search" value="{{ request.args.get('search', '') }}"
+                               placeholder="Search for products, brands and more"
+                               class="field pl-10">
+                    </div>
+                </form>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-4 lg:gap-6 ml-auto">
                     {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('view_cart') }}" class="hover:text-blue-200 transition">
-                            🛒 Cart
-                        </a>
-                        <a href="{{ url_for('my_orders') }}" class="hover:text-blue-200 transition">Orders</a>
-                        
+                        <a href="{{ url_for('my_orders') }}" class="nav-link hidden sm:inline">Orders</a>
                         {% if current_user.is_admin %}
-                            <a href="{{ url_for('admin_dashboard') }}" class="hover:text-blue-200 transition">Admin</a>
+                            <a href="{{ url_for('admin_dashboard') }}" class="nav-link hidden sm:inline">Admin</a>
                         {% endif %}
-                        
-                        <span class="text-blue-200">👤 {{ current_user.username }}</span>
-                        
-                        <a href="{{ url_for('logout') }}" class="bg-blue-700 px-4 py-2 rounded hover:bg-blue-800 transition">
-                            Logout
+                        <a href="{{ url_for('view_cart') }}" class="relative inline-flex items-center gap-2 nav-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l3-8H6.4M7 13L5.4 5M7 13l-2 5h12"/>
+                                <circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>
+                            </svg>
+                            <span class="hidden lg:inline">Cart</span>
                         </a>
+                        <div class="hidden sm:flex items-center gap-3 border-l border-neutral-200 pl-4">
+                            <span class="text-sm text-neutral-500">Hi, <span class="font-semibold text-neutral-800">{{ current_user.username }}</span></span>
+                            <a href="{{ url_for('logout') }}" class="nav-link">Sign out</a>
+                        </div>
                     {% else %}
-                        <a href="{{ url_for('login') }}" class="hover:text-blue-200 transition">Login</a>
-                        <a href="{{ url_for('register') }}" class="bg-blue-700 px-4 py-2 rounded hover:bg-blue-800 transition">
-                            Register
-                        </a>
+                        <a href="{{ url_for('login') }}" class="nav-link">Sign in</a>
+                        <a href="{{ url_for('register') }}" class="btn btn-primary">Create account</a>
                     {% endif %}
                 </div>
             </div>
+
+            <!-- Mobile search -->
+            <form action="{{ url_for('products') }}" method="GET" class="md:hidden pb-3">
+                <div class="relative w-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.3-4.3m1.8-4.7a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"/>
+                    </svg>
+                    <input type="text" name="search" value="{{ request.args.get('search', '') }}"
+                           placeholder="Search products" class="field pl-10">
+                </div>
+            </form>
         </div>
-    </nav>
-    
+
+        <!-- Category nav -->
+        <nav class="border-t border-neutral-100 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center gap-6 py-2.5 overflow-x-auto">
+                    <a href="{{ url_for('products') }}" class="cat-link font-medium text-neutral-700">All products</a>
+                    <a href="{{ url_for('products', category='Electronics') }}" class="cat-link">Electronics</a>
+                    <a href="{{ url_for('products', category='Clothing') }}" class="cat-link">Clothing</a>
+                    <a href="{{ url_for('products', category='Books') }}" class="cat-link">Books</a>
+                    <a href="{{ url_for('products', category='Home') }}" class="cat-link">Home</a>
+                    <a href="{{ url_for('products', category='Sports') }}" class="cat-link">Sports</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="container mx-auto px-4 mt-4">
                 {% for category, message in messages %}
-                    <div class="flash-message p-4 rounded-lg mb-2 {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                    <div class="flash-message rounded-lg border px-4 py-3 mb-2 text-sm {% if category == 'error' %}bg-red-50 border-red-200 text-red-700{% else %}bg-emerald-50 border-emerald-200 text-emerald-700{% endif %}">
                         {{ message }}
                     </div>
                 {% endfor %}
             </div>
         {% endif %}
     {% endwith %}
-    
+
     <!-- Main Content -->
     <main class="flex-grow container mx-auto px-4 py-8">
         {% block content %}{% endblock %}
     </main>
-    
+
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-auto">
-        <div class="container mx-auto px-4 py-6">
-            <div class="text-center">
-                <p class="text-sm">
-                    ⚠️ <strong>Warning:</strong> This is an intentionally vulnerable application for educational purposes.
-                </p>
-                <p class="text-xs mt-2 text-gray-400">
-                    SafeBuyr E-commerce &copy; 2024 | DO NOT deploy in production!
-                </p>
+    <footer class="mt-auto border-t border-neutral-200 bg-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l3-8H6.4M7 13L5.4 5M7 13l-2 5h12"/>
+                            </svg>
+                        </span>
+                        <span class="text-lg font-extrabold text-neutral-900">SafeBuyr</span>
+                    </div>
+                    <p class="text-sm text-neutral-500">Everyday essentials and electronics, delivered fast.</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-neutral-900 mb-3">Shop</h4>
+                    <ul class="space-y-2 text-sm text-neutral-500">
+                        <li><a href="{{ url_for('products', category='Electronics') }}" class="hover:text-brand">Electronics</a></li>
+                        <li><a href="{{ url_for('products', category='Clothing') }}" class="hover:text-brand">Clothing</a></li>
+                        <li><a href="{{ url_for('products', category='Books') }}" class="hover:text-brand">Books</a></li>
+                        <li><a href="{{ url_for('products', category='Home') }}" class="hover:text-brand">Home</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-neutral-900 mb-3">Help</h4>
+                    <ul class="space-y-2 text-sm text-neutral-500">
+                        <li><a href="#" class="hover:text-brand">Shipping &amp; delivery</a></li>
+                        <li><a href="#" class="hover:text-brand">Returns</a></li>
+                        <li><a href="#" class="hover:text-brand">Track your order</a></li>
+                        <li><a href="#" class="hover:text-brand">Contact us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-neutral-900 mb-3">Company</h4>
+                    <ul class="space-y-2 text-sm text-neutral-500">
+                        <li><a href="#" class="hover:text-brand">About</a></li>
+                        <li><a href="#" class="hover:text-brand">Careers</a></li>
+                        <li><a href="#" class="hover:text-brand">Privacy</a></li>
+                        <li><a href="#" class="hover:text-brand">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-10 pt-6 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p class="text-xs text-neutral-400">&copy; 2026 SafeBuyr, Inc. All rights reserved.</p>
+                <div class="flex items-center gap-2 text-xs text-neutral-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 4v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V7l7-4z"/></svg>
+                    Secure checkout
+                </div>
             </div>
         </div>
     </footer>
-    
+
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

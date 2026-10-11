@@ -6,6 +6,7 @@ Tests that scanner STILL detects vulnerabilities correctly
 import pytest
 import requests
 import os
+import sys
 import glob
 
 
@@ -19,8 +20,11 @@ class TestScannerFunctionality:
         """Verify scanner can run without errors"""
         import subprocess
         
+        # Use the same interpreter running the tests (sys.executable) so the
+        # scanner runs under the venv's Python 3, not whatever bare `python`
+        # resolves to on the host (e.g. a system Python 2).
         result = subprocess.run(
-            ['python', 'scanner/vulnerability_scanner.py', BASE_URL],
+            [sys.executable, 'scanner/vulnerability_scanner.py', BASE_URL],
             capture_output=True,
             text=True,
             timeout=60

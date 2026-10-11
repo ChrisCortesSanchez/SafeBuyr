@@ -1,157 +1,131 @@
 {% extends "base.html" %}
 
-{% block title %}{{ product.name }} - SafeBuyr E-commerce{% endblock %}
+{% block title %}{{ product.name }} — SafeBuyr{% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto">
-    
-    <!-- Back Button -->
-    <a href="{{ url_for('products') }}" class="inline-block mb-6 text-blue-600 hover:text-blue-700">
-        ← Back to Products
-    </a>
-    
-    <!-- Product Details -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
-            
-            <!-- Product Image -->
-            <div class="rounded-lg h-96 overflow-hidden bg-gray-100">
+<div class="max-w-5xl mx-auto">
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-neutral-400 mb-6">
+        <a href="{{ url_for('index') }}" class="hover:text-neutral-700">Home</a>
+        <span>/</span>
+        <a href="{{ url_for('products', category=product.category) }}" class="hover:text-neutral-700">{{ product.category }}</a>
+        <span>/</span>
+        <span class="text-neutral-600 line-clamp-1">{{ product.name }}</span>
+    </nav>
+
+    <!-- Product -->
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <div class="card overflow-hidden">
+            <div class="aspect-square bg-neutral-100">
                 {% if product.image_url %}
-                    <img src="{{ product.image_url }}" alt="{{ product.name }}"
-                         class="w-full h-full object-cover">
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
                 {% else %}
-                    <div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
-                        <span class="text-9xl">
-                            {% if product.category == 'Electronics' %}💻
-                            {% elif product.category == 'Clothing' %}👕
-                            {% elif product.category == 'Books' %}📚
-                            {% elif product.category == 'Home' %}🏠
-                            {% elif product.category == 'Sports' %}⚽
-                            {% else %}📦{% endif %}
-                        </span>
-                    </div>
-                {% endif %}
-            </div>
-            
-            <!-- Product Info -->
-            <div>
-                <span class="bg-blue-100 text-blue-700 text-sm px-3 py-1 rounded">{{ product.category }}</span>
-                <h1 class="text-4xl font-bold mt-4 mb-4">{{ product.name }}</h1>
-                
-                <div class="text-4xl font-bold text-blue-600 mb-6">
-                    ${{ "%.2f"|format(product.price) }}
-                </div>
-                
-                <p class="text-gray-700 mb-6">{{ product.description }}</p>
-                
-                <div class="mb-6 p-4 bg-gray-50 rounded">
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-600">Availability:</span>
-                        <span class="font-semibold {% if product.stock > 0 %}text-green-600{% else %}text-red-600{% endif %}">
-                            {% if product.stock > 0 %}
-                                ✓ In Stock ({{ product.stock }} available)
-                            {% else %}
-                                ✗ Out of Stock
-                            {% endif %}
-                        </span>
-                    </div>
-                </div>
-                
-                <!-- Add to Cart Form -->
-                {% if current_user.is_authenticated %}
-                    {% if product.stock > 0 %}
-                        <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium mb-2">Quantity:</label>
-                                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" 
-                                       class="w-24 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            </div>
-                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                                🛒 Add to Cart
-                            </button>
-                        </form>
-                    {% else %}
-                        <button disabled class="w-full bg-gray-400 text-white py-3 rounded-lg font-semibold cursor-not-allowed">
-                            Out of Stock
-                        </button>
-                    {% endif %}
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="block w-full bg-blue-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Login to Purchase
-                    </a>
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-neutral-100 to-neutral-200 text-6xl font-bold text-neutral-300">{{ product.name[:1]|upper }}</div>
                 {% endif %}
             </div>
         </div>
+
+        <div>
+            <span class="text-xs font-medium text-neutral-400 uppercase tracking-wide">{{ product.category }}</span>
+            <h1 class="text-3xl font-bold mt-1 mb-3">{{ product.name }}</h1>
+            <div class="text-3xl font-bold text-neutral-900 mb-5">${{ "%.2f"|format(product.price) }}</div>
+            <p class="text-neutral-600 leading-relaxed mb-6">{{ product.description }}</p>
+
+            <div class="flex items-center gap-2 mb-6 text-sm">
+                {% if product.stock > 0 %}
+                    <span class="inline-flex items-center gap-1.5 text-emerald-600 font-medium">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span> In stock
+                    </span>
+                    <span class="text-neutral-400">· {{ product.stock }} available</span>
+                {% else %}
+                    <span class="inline-flex items-center gap-1.5 text-neutral-400 font-medium">
+                        <span class="h-2 w-2 rounded-full bg-neutral-300"></span> Out of stock
+                    </span>
+                {% endif %}
+            </div>
+
+            {% if current_user.is_authenticated %}
+                {% if product.stock > 0 %}
+                    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="flex items-end gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-neutral-700 mb-1.5">Quantity</label>
+                            <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="field w-24">
+                        </div>
+                        <button type="submit" class="btn btn-primary flex-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l3-8H6.4M7 13L5.4 5M7 13l-2 5h12"/></svg>
+                            Add to cart
+                        </button>
+                    </form>
+                {% else %}
+                    <button disabled class="btn btn-secondary w-full">Out of stock</button>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-primary w-full">Sign in to purchase</a>
+            {% endif %}
+
+            <div class="mt-6 grid grid-cols-2 gap-3 text-sm text-neutral-500">
+                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/></svg> Free shipping over $50</div>
+                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h11a5 5 0 010 10H9M3 10l4-4M3 10l4 4"/></svg> 30-day returns</div>
+            </div>
+        </div>
     </div>
-    
-    <!-- Reviews Section -->
-    <div class="bg-white rounded-lg shadow-lg p-8">
-        <h2 class="text-2xl font-bold mb-6">Customer Reviews</h2>
-        
-        <!-- Add Review Form -->
+
+    <!-- Reviews -->
+    <div class="card p-6 sm:p-8">
+        <h2 class="text-xl font-bold mb-6">Customer reviews</h2>
+
         {% if current_user.is_authenticated %}
-            <div class="mb-8 p-6 bg-gray-50 rounded-lg">
-                <h3 class="font-bold mb-4">Write a Review</h3>
+            <div class="mb-8 p-5 rounded-xl bg-neutral-50 border border-neutral-100">
+                <h3 class="font-semibold mb-4">Write a review</h3>
                 <form action="{{ url_for('add_review', product_id=product.id) }}" method="POST" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium mb-2">Rating:</label>
-                        <select name="rating" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="5">⭐⭐⭐⭐⭐ (5 stars)</option>
-                            <option value="4">⭐⭐⭐⭐ (4 stars)</option>
-                            <option value="3" selected>⭐⭐⭐ (3 stars)</option>
-                            <option value="2">⭐⭐ (2 stars)</option>
-                            <option value="1">⭐ (1 star)</option>
+                        <label class="block text-sm font-medium text-neutral-700 mb-1.5">Rating</label>
+                        <select name="rating" class="field">
+                            <option value="5">★★★★★ — Excellent</option>
+                            <option value="4">★★★★☆ — Very good</option>
+                            <option value="3" selected>★★★☆☆ — Good</option>
+                            <option value="2">★★☆☆☆ — Fair</option>
+                            <option value="1">★☆☆☆☆ — Poor</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-2">Comment:</label>
-                        <textarea name="comment" rows="4" 
-                                  class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                  placeholder="Share your thoughts about this product..."></textarea>
+                        <label class="block text-sm font-medium text-neutral-700 mb-1.5">Your review</label>
+                        <textarea name="comment" rows="4" class="field" placeholder="Share your thoughts about this product..."></textarea>
                     </div>
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-                        Submit Review
-                    </button>
-                    <p class="text-xs text-gray-500 mt-2">
-                        💡 XSS Vulnerable: Try <code class="bg-gray-200 px-1">&lt;script&gt;alert('XSS')&lt;/script&gt;</code>
-                    </p>
+                    <button type="submit" class="btn btn-primary">Submit review</button>
                 </form>
             </div>
         {% else %}
-            <div class="mb-8 p-6 bg-yellow-50 rounded-lg border border-yellow-200">
-                <p class="text-gray-700">
-                    <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline">Login</a> to write a review
-                </p>
+            <div class="mb-8 p-5 rounded-xl bg-neutral-50 border border-neutral-100 text-sm text-neutral-600">
+                <a href="{{ url_for('login') }}" class="text-brand font-medium hover:text-brand-700">Sign in</a> to write a review.
             </div>
         {% endif %}
-        
-        <!-- Reviews List -->
+
         {% if reviews %}
-            <div class="space-y-4">
+            <div class="space-y-5">
                 {% for review in reviews %}
-                    <div class="border-b pb-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <div>
-                                <span class="font-semibold">{{ review.user.username }}</span>
-                                <span class="text-yellow-500 ml-2">
-                                    {% for i in range(review.rating) %}⭐{% endfor %}
-                                </span>
+                    <div class="pb-5 border-b border-neutral-100 last:border-0">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <div class="flex items-center gap-3">
+                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-50 text-brand text-sm font-semibold">{{ review.user.username[:1]|upper }}</span>
+                                <div>
+                                    <span class="font-medium text-neutral-900">{{ review.user.username }}</span>
+                                    <span class="ml-2 text-amber-500 text-sm">{% for i in range(review.rating) %}★{% endfor %}<span class="text-neutral-200">{% for i in range(5 - review.rating) %}★{% endfor %}</span></span>
+                                </div>
                             </div>
-                            <span class="text-sm text-gray-500">
-                                {{ review.created_at.strftime('%B %d, %Y') }}
-                            </span>
+                            <span class="text-xs text-neutral-400">{{ review.created_at.strftime('%B %d, %Y') }}</span>
                         </div>
                         <!-- VULNERABLE: XSS - comment rendered without escaping -->
-                        <div class="text-gray-700">{{ review.comment|safe }}</div>
+                        <div class="text-neutral-600 pl-11">{{ review.comment|safe }}</div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="text-center py-8 text-gray-500">
-                <p>No reviews yet. Be the first to review this product!</p>
+            <div class="text-center py-10 text-neutral-400">
+                <p>No reviews yet. Be the first to review this product.</p>
             </div>
         {% endif %}
     </div>
-    
 </div>
 {% endblock %}

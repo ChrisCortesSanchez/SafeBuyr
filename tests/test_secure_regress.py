@@ -121,11 +121,13 @@ class TestCSRFProtection:
         """Verify forms have CSRF tokens"""
         response = requests.get(f"{BASE_URL}/login")
         soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # Look for CSRF token in form
-        form = soup.find('form')
-        csrf_input = form.find('input', {'name': 'csrf_token'}) if form else None
-        
+
+        # Target the login form specifically (the page also has a global
+        # header search form, which is a GET form and needs no CSRF token).
+        form = soup.find('form', attrs={'action': lambda a: a and a.endswith('/login')})
+        assert form is not None, "Login form should be present"
+        csrf_input = form.find('input', {'name': 'csrf_token'})
+
         # Should have CSRF token in secure version
         assert csrf_input is not None, \
             "Secure version should have CSRF tokens"

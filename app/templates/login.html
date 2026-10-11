@@ -1,67 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}Login - SafeBuyr E-commerce{% endblock %}
+{% block title %}Sign in — SafeBuyr{% endblock %}
 
 {% block content %}
 <div class="max-w-md mx-auto">
-    
-    <div class="bg-white rounded-lg shadow-lg p-8">
-        <h1 class="text-3xl font-bold mb-6 text-center">Login</h1>
-        
+    <div class="card p-8">
+        <h1 class="text-2xl font-bold text-center mb-1">Welcome back</h1>
+        <p class="text-sm text-neutral-500 text-center mb-6">Sign in to your SafeBuyr account</p>
+
         <form action="{{ url_for('login') }}" method="POST" class="space-y-4">
-            <!-- Username -->
             <div>
-                <label for="username" class="block text-sm font-medium mb-2">Username</label>
-                <input type="text" 
-                       id="username" 
-                       name="username" 
-                       required
-                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                       placeholder="Enter your username">
+                <label for="username" class="block text-sm font-medium text-neutral-700 mb-1.5">Username</label>
+                <input type="text" id="username" name="username" required class="field" placeholder="Enter your username">
             </div>
-            
-            <!-- Password -->
             <div>
-                <label for="password" class="block text-sm font-medium mb-2">Password</label>
-                <input type="password" 
-                       id="password" 
-                       name="password" 
-                       required
-                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                       placeholder="Enter your password">
+                <label for="password" class="block text-sm font-medium text-neutral-700 mb-1.5">Password</label>
+                <input type="password" id="password" name="password" required class="field" placeholder="Enter your password">
             </div>
-            
-            <!-- Submit Button -->
-            <button type="submit" 
-                    class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                Login
-            </button>
+            <button type="submit" class="btn btn-primary w-full">Sign in</button>
         </form>
-        
-        <!-- Register Link -->
-        <div class="mt-6 text-center">
-            <p class="text-gray-600">
-                Don't have an account? 
-                <a href="{{ url_for('register') }}" class="text-blue-600 hover:underline">Register here</a>
-            </p>
-        </div>
-        
-        <!-- Test Credentials -->
-        <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-            <h3 class="font-semibold text-sm mb-2">🔓 Test Credentials</h3>
-            <div class="text-sm space-y-1">
-                <p><strong>Admin:</strong> <code class="bg-gray-200 px-2 py-1 rounded">admin</code> / <code class="bg-gray-200 px-2 py-1 rounded">admin123</code></p>
-                <p><strong>User:</strong> <code class="bg-gray-200 px-2 py-1 rounded">user</code> / <code class="bg-gray-200 px-2 py-1 rounded">password</code></p>
+
+        <p class="mt-6 text-center text-sm text-neutral-500">
+            Don’t have an account?
+            <a href="{{ url_for('register') }}" class="text-brand font-medium hover:text-brand-700">Create one</a>
+        </p>
+
+        <!-- Demo accounts -->
+        <div class="mt-6 pt-6 border-t border-neutral-100">
+            <p class="text-xs font-semibold text-neutral-400 uppercase tracking-wide mb-2">Demo accounts</p>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+                <div class="rounded-lg bg-neutral-50 border border-neutral-100 px-3 py-2">
+                    <p class="text-xs text-neutral-400">Admin</p>
+                    <p class="font-mono text-neutral-700">admin / admin123</p>
+                </div>
+                <div class="rounded-lg bg-neutral-50 border border-neutral-100 px-3 py-2">
+                    <p class="text-xs text-neutral-400">Customer</p>
+                    <p class="font-mono text-neutral-700">user / password</p>
+                </div>
             </div>
-        </div>
-        
-        <!-- Vulnerability Hints -->
-        <div class="mt-4 p-4 bg-red-50 rounded-lg border border-red-200">
-            <h3 class="font-semibold text-sm mb-2">💡 SQL Injection Hint</h3>
-            <p class="text-xs text-gray-700">Try SQL injection payloads in the username field:</p>
-            <code class="text-xs bg-gray-200 px-2 py-1 rounded block mt-1">admin' OR '1'='1'--</code>
         </div>
     </div>
-    
 </div>
 {% endblock %}

@@ -1,32 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Error - SafeBuyr E-commerce{% endblock %}
+{% block title %}Something went wrong — SafeBuyr{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto text-center">
-    
-    <div class="bg-white rounded-lg shadow-lg p-12">
-        <div class="text-8xl mb-6">😕</div>
-        
-        <h1 class="text-4xl font-bold mb-4">Oops!</h1>
-        
-        {% if error %}
-            <p class="text-xl text-gray-600 mb-8">{{ error }}</p>
-        {% else %}
-            <p class="text-xl text-gray-600 mb-8">Something went wrong.</p>
-        {% endif %}
-        
-        <div class="flex gap-4 justify-center">
-            <a href="{{ url_for('index') }}" 
-               class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                Go Home
-            </a>
-            <button onclick="history.back()" 
-                    class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
-                Go Back
-            </button>
+<div class="max-w-lg mx-auto">
+    <div class="card p-10 text-center">
+        <div class="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-neutral-100 text-neutral-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+        </div>
+        <h1 class="text-2xl font-bold mb-2">Something went wrong</h1>
+        <p class="text-neutral-500 mb-8">{% if error %}{{ error }}{% else %}We couldn’t complete your request. Please try again.{% endif %}</p>
+        <div class="flex gap-3 justify-center">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Back to home</a>
+            <button onclick="history.back()" class="btn btn-secondary">Go back</button>
         </div>
     </div>
-    
 </div>
 {% endblock %}
