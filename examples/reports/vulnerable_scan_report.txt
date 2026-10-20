@@ -1,0 +1,196 @@
+
+======================================================================
+SECURITY ASSESSMENT REPORT
+VulnHub E-commerce Application
+======================================================================
+
+SCAN DETAILS
+======================================================================
+Target:           http://localhost:5001
+Scan Started:     2026-10-20 11:06:02
+Duration:         3.93 seconds
+Vulnerabilities:  6
+Endpoints Tested: 13
+
+SEVERITY DISTRIBUTION
+======================================================================
+CRITICAL:  1
+HIGH:      4
+MEDIUM:    1
+LOW:       0
+INFO:      0
+
+DETAILED FINDINGS
+======================================================================
+
+Finding #1
+----------------------------------------
+Name:         SQL Injection in Product Search
+Severity:     CRITICAL
+CVSS Score:   9.8
+CWE:          CWE-89
+Location:     /products?search=
+
+Description:
+The product search functionality is vulnerable to SQL injection. User input is concatenated directly into SQL queries without parameterization or input validation.
+
+Proof of Concept:
+GET /products?search=' OR '1'='1
+Returned 20 products (expected ~1)
+
+Remediation:
+1. Use parameterized queries/prepared statements
+2. Implement input validation
+3. Apply principle of least privilege to database user
+4. Use ORM query builders (SQLAlchemy)
+
+
+Finding #2
+----------------------------------------
+Name:         Stored XSS in Product Reviews
+Severity:     HIGH
+CVSS Score:   7.1
+CWE:          CWE-79
+Location:     /product/1/review
+
+Description:
+Product review comments are stored and displayed without proper output encoding. Attackers can inject malicious JavaScript that executes in other users' browsers.
+
+Proof of Concept:
+POST /product/1/review
+comment=<script>alert('XSS')</script>
+
+Payload appears unencoded in product page
+
+Remediation:
+1. Implement output encoding (HTML entity encoding)
+2. Use Content Security Policy (CSP)
+3. Remove |safe filter from Jinja2 templates
+4. Sanitize user input
+5. Set HTTPOnly flag on cookies
+
+
+Finding #3
+----------------------------------------
+Name:         Insecure Direct Object Reference in Orders
+Severity:     HIGH
+CVSS Score:   6.5
+CWE:          CWE-639
+Location:     /order/<id>
+
+Description:
+Order viewing functionality does not verify that the logged-in user owns the requested order. Any authenticated user can view any order by guessing order IDs.
+
+Proof of Concept:
+Logged in as 'user'
+Successfully accessed orders: [1, 2, 3, 4, 5]
+No authorization check prevents viewing other users' orders
+
+Remediation:
+1. Implement authorization checks:
+   if order.user_id != current_user.id:
+       abort(403)
+2. Use UUIDs instead of sequential IDs
+3. Implement proper access control lists
+4. Log unauthorized access attempts
+
+
+Finding #4
+----------------------------------------
+Name:         Missing Security Headers
+Severity:     MEDIUM
+CVSS Score:   5.3
+CWE:          CWE-693
+Location:     All endpoints
+
+Description:
+6 important security headers are missing, reducing defense-in-depth protections.
+
+Proof of Concept:
+Missing headers: X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security, Content-Security-Policy, X-XSS-Protection, Referrer-Policy
+
+Remediation:
+Add security headers to Flask application:
+@app.after_request
+def set_security_headers(response):
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Content-Security-Policy'] = "default-src 'self'"
+    return response
+
+
+Finding #5
+----------------------------------------
+Name:         Weak Password Hashing
+Severity:     HIGH
+CVSS Score:   7.5
+CWE:          CWE-916
+Location:     /login
+
+Description:
+Login verification completes too quickly to be using a computationally expensive password hash. The median verification time was 4.1ms, consistent with a fast, crackable hash such as unsalted MD5 rather than bcrypt, scrypt, or Argon2.
+
+Proof of Concept:
+Median failed-login verification time: 4.1ms over 5 samples (bcrypt at cost 12 would be >200ms)
+
+Remediation:
+1. Hash passwords with bcrypt, scrypt, or Argon2
+2. Use a unique per-password salt (built into bcrypt)
+3. Choose a bcrypt work factor of at least 12
+4. Never use MD5/SHA-1 for password storage
+
+
+Finding #6
+----------------------------------------
+Name:         Missing CSRF Protection
+Severity:     HIGH
+CVSS Score:   6.1
+CWE:          CWE-352
+Location:     /login, /register, /checkout
+
+Description:
+Forms do not implement CSRF tokens, allowing attackers to perform state-changing actions on behalf of authenticated users.
+
+Proof of Concept:
+Forms in the following endpoints lack CSRF tokens:
+- /login
+- /register
+- /checkout
+
+Remediation:
+1. Implement CSRF tokens using Flask-WTF:
+   from flask_wtf.csrf import CSRFProtect
+   csrf = CSRFProtect(app)
+2. Include {{ csrf_token() }} in all forms
+3. Validate tokens on state-changing requests
+4. Use SameSite cookie attribute
+
+
+======================================================================
+RECOMMENDATIONS
+======================================================================
+
+IMMEDIATE ACTION REQUIRED:
+1. Address all CRITICAL severity vulnerabilities immediately
+2. Implement input validation and output encoding
+3. Replace MD5 with bcrypt for password hashing
+4. Add authorization checks on all data access
+5. Deploy CSRF protection
+
+HIGH PRIORITY:
+6. Implement security headers
+7. Add rate limiting
+8. Enable logging and monitoring
+9. Conduct code review
+10. Implement WAF
+
+ONGOING:
+11. Regular security testing
+12. Security training for developers
+13. Bug bounty program
+14. Incident response plan
+
+======================================================================
+Report Generated by Automated Vulnerability Scanner
+Author: Chris Cortes
+======================================================================

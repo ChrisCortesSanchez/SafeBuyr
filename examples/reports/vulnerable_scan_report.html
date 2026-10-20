@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Assessment Report - VulnHub E-commerce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #DDCBB7;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: #3f4852;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .summary-card h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .summary-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #5b6975;
+        }
+        
+        .severity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .severity-badge {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+        }
+        
+        .severity-badge.critical {
+            border-color: #dc3545;
+        }
+        
+        .severity-badge.high {
+            border-color: #fd7e14;
+        }
+        
+        .severity-badge.medium {
+            border-color: #ffc107;
+        }
+        
+        .severity-badge.low {
+            border-color: #28a745;
+        }
+        
+        .severity-badge h4 {
+            color: #666;
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+        
+        .severity-badge .count {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .severity-badge.critical .count {
+            color: #dc3545;
+        }
+        
+        .severity-badge.high .count {
+            color: #fd7e14;
+        }
+        
+        .severity-badge.medium .count {
+            color: #ffc107;
+        }
+        
+        .severity-badge.low .count {
+            color: #28a745;
+        }
+        
+        .vulnerability {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+        }
+        
+        .vulnerability.critical {
+            border-color: #dc3545;
+        }
+        
+        .vulnerability.high {
+            border-color: #fd7e14;
+        }
+        
+        .vulnerability.medium {
+            border-color: #ffc107;
+        }
+        
+        .vulnerability.low {
+            border-color: #28a745;
+        }
+        
+        .vulnerability h2 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .severity-label {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .severity-label.critical {
+            background: #dc3545;
+        }
+        
+        .severity-label.high {
+            background: #fd7e14;
+        }
+        
+        .severity-label.medium {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .severity-label.low {
+            background: #28a745;
+        }
+        
+        .vuln-section {
+            margin: 15px 0;
+        }
+        
+        .vuln-section h3 {
+            color: #5b6975;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .vuln-section p, .vuln-section pre {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 3px solid #5b6975;
+        }
+        
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .metadata-item strong {
+            color: #5b6975;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .metadata-item span {
+            color: #666;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .remediation {
+            background: #eef0f2;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #5b6975;
+        }
+        
+        .remediation h3 {
+            color: #5b6975;
+            margin-bottom: 10px;
+        }
+        
+        .risk-meter {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .risk-bar {
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .risk-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .risk-label {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1> Security Assessment Report</h1>
+            <p>VulnHub E-commerce Application</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">
+                Generated: October 20, 2026 at 11:06:02
+            </p>
+        </header>
+        
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3>Target</h3>
+                <div style="color: #5b6975; font-weight: bold; word-break: break-all;">
+                    http://localhost:5001
+                </div>
+            </div>
+            <div class="summary-card">
+                <h3>Duration</h3>
+                <div class="number">3.9s</div>
+            </div>
+            <div class="summary-card">
+                <h3>Vulnerabilities</h3>
+                <div class="number">6</div>
+            </div>
+            <div class="summary-card">
+                <h3>Endpoints</h3>
+                <div class="number">13</div>
+            </div>
+        </div>
+        
+        <div class="risk-meter">
+            <h3 style="color: #5b6975; margin-bottom: 10px;">Overall Risk Score: 32/100</h3>
+            <div class="risk-bar">
+                <div class="risk-fill" style="width: 32%; background: #fd7e14"></div>
+            </div>
+            <div class="risk-label" style="color: #fd7e14">
+                HIGH RISK
+            </div>
+        </div>
+        
+        <div class="severity-grid">
+            <div class="severity-badge critical">
+                <h4>CRITICAL</h4>
+                <div class="count">1</div>
+            </div>
+            <div class="severity-badge high">
+                <h4>HIGH</h4>
+                <div class="count">4</div>
+            </div>
+            <div class="severity-badge medium">
+                <h4>MEDIUM</h4>
+                <div class="count">1</div>
+            </div>
+            <div class="severity-badge low">
+                <h4>LOW</h4>
+                <div class="count">0</div>
+            </div>
+        </div>
+
+        <div class="vulnerability critical">
+            <h2>
+                <span>#1 - SQL Injection in Product Search</span>
+                <span class="severity-label critical">CRITICAL</span>
+            </h2>
+            
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>CVSS Score</strong>
+                    <span>9.8</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>CWE</strong>
+                    <span>CWE-89</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Location</strong>
+                    <span>/products?search=</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Discovered</strong>
+                    <span>2026-10-20T11:06:03</span>
+                </div>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>📋 Description</h3>
+                <p>The product search functionality is vulnerable to SQL injection. User input is concatenated directly into SQL queries without parameterization or input validation.</p>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>🔬 Proof of Concept</h3>
+                <pre>GET /products?search=' OR '1'='1
+Returned 20 products (expected ~1)</pre>
+            </div>
+            
+            <div class="vuln-section remediation">
+                <h3>✅ Remediation</h3>
+                <pre style="background: transparent; border: none; padding: 0;">1. Use parameterized queries/prepared statements
+2. Implement input validation
+3. Apply principle of least privilege to database user
+4. Use ORM query builders (SQLAlchemy)</pre>
+            </div>
+        </div>
+
+        <div class="vulnerability high">
+            <h2>
+                <span>#2 - Stored XSS in Product Reviews</span>
+                <span class="severity-label high">HIGH</span>
+            </h2>
+            
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>CVSS Score</strong>
+                    <span>7.1</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>CWE</strong>
+                    <span>CWE-79</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Location</strong>
+                    <span>/product/1/review</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Discovered</strong>
+                    <span>2026-10-20T11:06:03</span>
+                </div>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>📋 Description</h3>
+                <p>Product review comments are stored and displayed without proper output encoding. Attackers can inject malicious JavaScript that executes in other users' browsers.</p>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>🔬 Proof of Concept</h3>
+                <pre>POST /product/1/review
+comment=<script>alert('XSS')</script>
+
+Payload appears unencoded in product page</pre>
+            </div>
+            
+            <div class="vuln-section remediation">
+                <h3>✅ Remediation</h3>
+                <pre style="background: transparent; border: none; padding: 0;">1. Implement output encoding (HTML entity encoding)
+2. Use Content Security Policy (CSP)
+3. Remove |safe filter from Jinja2 templates
+4. Sanitize user input
+5. Set HTTPOnly flag on cookies</pre>
+            </div>
+        </div>
+
+        <div class="vulnerability high">
+            <h2>
+                <span>#3 - Insecure Direct Object Reference in Orders</span>
+                <span class="severity-label high">HIGH</span>
+            </h2>
+            
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>CVSS Score</strong>
+                    <span>6.5</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>CWE</strong>
+                    <span>CWE-639</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Location</strong>
+                    <span>/order/<id></span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Discovered</strong>
+                    <span>2026-10-20T11:06:04</span>
+                </div>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>📋 Description</h3>
+                <p>Order viewing functionality does not verify that the logged-in user owns the requested order. Any authenticated user can view any order by guessing order IDs.</p>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>🔬 Proof of Concept</h3>
+                <pre>Logged in as 'user'
+Successfully accessed orders: [1, 2, 3, 4, 5]
+No authorization check prevents viewing other users' orders</pre>
+            </div>
+            
+            <div class="vuln-section remediation">
+                <h3>✅ Remediation</h3>
+                <pre style="background: transparent; border: none; padding: 0;">1. Implement authorization checks:
+   if order.user_id != current_user.id:
+       abort(403)
+2. Use UUIDs instead of sequential IDs
+3. Implement proper access control lists
+4. Log unauthorized access attempts</pre>
+            </div>
+        </div>
+
+        <div class="vulnerability medium">
+            <h2>
+                <span>#4 - Missing Security Headers</span>
+                <span class="severity-label medium">MEDIUM</span>
+            </h2>
+            
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>CVSS Score</strong>
+                    <span>5.3</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>CWE</strong>
+                    <span>CWE-693</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Location</strong>
+                    <span>All endpoints</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Discovered</strong>
+                    <span>2026-10-20T11:06:04</span>
+                </div>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>📋 Description</h3>
+                <p>6 important security headers are missing, reducing defense-in-depth protections.</p>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>🔬 Proof of Concept</h3>
+                <pre>Missing headers: X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security, Content-Security-Policy, X-XSS-Protection, Referrer-Policy</pre>
+            </div>
+            
+            <div class="vuln-section remediation">
+                <h3>✅ Remediation</h3>
+                <pre style="background: transparent; border: none; padding: 0;">Add security headers to Flask application:
+@app.after_request
+def set_security_headers(response):
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Content-Security-Policy'] = "default-src 'self'"
+    return response</pre>
+            </div>
+        </div>
+
+        <div class="vulnerability high">
+            <h2>
+                <span>#5 - Weak Password Hashing</span>
+                <span class="severity-label high">HIGH</span>
+            </h2>
+            
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>CVSS Score</strong>
+                    <span>7.5</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>CWE</strong>
+                    <span>CWE-916</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Location</strong>
+                    <span>/login</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Discovered</strong>
+                    <span>2026-10-20T11:06:05</span>
+                </div>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>📋 Description</h3>
+                <p>Login verification completes too quickly to be using a computationally expensive password hash. The median verification time was 4.1ms, consistent with a fast, crackable hash such as unsalted MD5 rather than bcrypt, scrypt, or Argon2.</p>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>🔬 Proof of Concept</h3>
+                <pre>Median failed-login verification time: 4.1ms over 5 samples (bcrypt at cost 12 would be >200ms)</pre>
+            </div>
+            
+            <div class="vuln-section remediation">
+                <h3>✅ Remediation</h3>
+                <pre style="background: transparent; border: none; padding: 0;">1. Hash passwords with bcrypt, scrypt, or Argon2
+2. Use a unique per-password salt (built into bcrypt)
+3. Choose a bcrypt work factor of at least 12
+4. Never use MD5/SHA-1 for password storage</pre>
+            </div>
+        </div>
+
+        <div class="vulnerability high">
+            <h2>
+                <span>#6 - Missing CSRF Protection</span>
+                <span class="severity-label high">HIGH</span>
+            </h2>
+            
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>CVSS Score</strong>
+                    <span>6.1</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>CWE</strong>
+                    <span>CWE-352</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Location</strong>
+                    <span>/login, /register, /checkout</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Discovered</strong>
+                    <span>2026-10-20T11:06:05</span>
+                </div>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>📋 Description</h3>
+                <p>Forms do not implement CSRF tokens, allowing attackers to perform state-changing actions on behalf of authenticated users.</p>
+            </div>
+            
+            <div class="vuln-section">
+                <h3>🔬 Proof of Concept</h3>
+                <pre>Forms in the following endpoints lack CSRF tokens:
+- /login
+- /register
+- /checkout</pre>
+            </div>
+            
+            <div class="vuln-section remediation">
+                <h3>✅ Remediation</h3>
+                <pre style="background: transparent; border: none; padding: 0;">1. Implement CSRF tokens using Flask-WTF:
+   from flask_wtf.csrf import CSRFProtect
+   csrf = CSRFProtect(app)
+2. Include {{ csrf_token() }} in all forms
+3. Validate tokens on state-changing requests
+4. Use SameSite cookie attribute</pre>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Automated Vulnerability Scanner</strong></p>
+            <p>Author: Chris Cortes</p>
+            <p>This report was generated by an automated security scanner for educational purposes.</p>
+        </footer>
+    </div>
+</body>
+</html>

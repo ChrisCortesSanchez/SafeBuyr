@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Assessment Report - VulnHub E-commerce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #DDCBB7;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: #3f4852;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .summary-card h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .summary-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #5b6975;
+        }
+        
+        .severity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .severity-badge {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+        }
+        
+        .severity-badge.critical {
+            border-color: #dc3545;
+        }
+        
+        .severity-badge.high {
+            border-color: #fd7e14;
+        }
+        
+        .severity-badge.medium {
+            border-color: #ffc107;
+        }
+        
+        .severity-badge.low {
+            border-color: #28a745;
+        }
+        
+        .severity-badge h4 {
+            color: #666;
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+        
+        .severity-badge .count {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .severity-badge.critical .count {
+            color: #dc3545;
+        }
+        
+        .severity-badge.high .count {
+            color: #fd7e14;
+        }
+        
+        .severity-badge.medium .count {
+            color: #ffc107;
+        }
+        
+        .severity-badge.low .count {
+            color: #28a745;
+        }
+        
+        .vulnerability {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+        }
+        
+        .vulnerability.critical {
+            border-color: #dc3545;
+        }
+        
+        .vulnerability.high {
+            border-color: #fd7e14;
+        }
+        
+        .vulnerability.medium {
+            border-color: #ffc107;
+        }
+        
+        .vulnerability.low {
+            border-color: #28a745;
+        }
+        
+        .vulnerability h2 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .severity-label {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .severity-label.critical {
+            background: #dc3545;
+        }
+        
+        .severity-label.high {
+            background: #fd7e14;
+        }
+        
+        .severity-label.medium {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .severity-label.low {
+            background: #28a745;
+        }
+        
+        .vuln-section {
+            margin: 15px 0;
+        }
+        
+        .vuln-section h3 {
+            color: #5b6975;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .vuln-section p, .vuln-section pre {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 3px solid #5b6975;
+        }
+        
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .metadata-item strong {
+            color: #5b6975;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .metadata-item span {
+            color: #666;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .remediation {
+            background: #eef0f2;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #5b6975;
+        }
+        
+        .remediation h3 {
+            color: #5b6975;
+            margin-bottom: 10px;
+        }
+        
+        .risk-meter {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .risk-bar {
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .risk-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .risk-label {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1> Security Assessment Report</h1>
+            <p>VulnHub E-commerce Application</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">
+                Generated: October 20, 2026 at 11:06:06
+            </p>
+        </header>
+        
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3>Target</h3>
+                <div style="color: #5b6975; font-weight: bold; word-break: break-all;">
+                    http://localhost:5002
+                </div>
+            </div>
+            <div class="summary-card">
+                <h3>Duration</h3>
+                <div class="number">5.2s</div>
+            </div>
+            <div class="summary-card">
+                <h3>Vulnerabilities</h3>
+                <div class="number">0</div>
+            </div>
+            <div class="summary-card">
+                <h3>Endpoints</h3>
+                <div class="number">13</div>
+            </div>
+        </div>
+        
+        <div class="risk-meter">
+            <h3 style="color: #5b6975; margin-bottom: 10px;">Overall Risk Score: 0/100</h3>
+            <div class="risk-bar">
+                <div class="risk-fill" style="width: 0%; background: #28a745"></div>
+            </div>
+            <div class="risk-label" style="color: #28a745">
+                LOW RISK
+            </div>
+        </div>
+        
+        <div class="severity-grid">
+            <div class="severity-badge critical">
+                <h4>CRITICAL</h4>
+                <div class="count">0</div>
+            </div>
+            <div class="severity-badge high">
+                <h4>HIGH</h4>
+                <div class="count">0</div>
+            </div>
+            <div class="severity-badge medium">
+                <h4>MEDIUM</h4>
+                <div class="count">0</div>
+            </div>
+            <div class="severity-badge low">
+                <h4>LOW</h4>
+                <div class="count">0</div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Automated Vulnerability Scanner</strong></p>
+            <p>Author: Chris Cortes</p>
+            <p>This report was generated by an automated security scanner for educational purposes.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -17,8 +17,9 @@ ENV/
 *.sqlite
 *.sqlite3
 
-# Scanner generated reports
-docs/
+# Scanner-generated reports (committed guides like docs/*.md are kept)
+docs/security_report_*.html
+docs/security_report_*.txt
 security_report_*.html
 security_report_*.txt
 
