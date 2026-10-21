@@ -21,10 +21,24 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
+from urllib.parse import urlparse
 import bcrypt
 import os
 import sys
 from datetime import datetime
+
+
+def is_safe_redirect_target(target):
+    """Allow only same-site relative redirects (prevents open redirect).
+
+    Rejects absolute URLs with a scheme or network location (e.g.
+    //evil.com, http://evil.com), which would otherwise bounce an
+    authenticated user to an attacker-controlled host.
+    """
+    if not target:
+        return False
+    parsed = urlparse(target)
+    return not parsed.scheme and not parsed.netloc and target.startswith('/')
 
 # Add parent directory to path to import models
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -233,9 +247,11 @@ def login():
             login_user(user)
             flash(f'Welcome back, {user.username}!', 'success')
             
-            # Redirect to next page or home
+            # ✅ SECURE: validate redirect target to prevent open redirect
             next_page = request.args.get('next')
-            return redirect(next_page if next_page else url_for('index'))
+            if not is_safe_redirect_target(next_page):
+                next_page = url_for('index')
+            return redirect(next_page)
         else:
             # Generic error message (prevents username enumeration)
             flash('Invalid credentials', 'error')
@@ -442,4 +458,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     
-    app.run(host='0.0.0.0', port=5002, debug=True)
+    # ✅ SECURE: debug mode disabled (no interactive debugger / code exec in prod)
+    app.run(host='0.0.0.0', port=5002, debug=False)
