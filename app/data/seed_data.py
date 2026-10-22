@@ -23,13 +23,13 @@ def seed_users():
     users = [
         {
             'username': 'admin',
-            'email': 'admin@vulnhub.com',
+            'email': 'admin@safebuyr.com',
             'password': hash_password_weak('admin123'),
             'is_admin': True
         },
         {
             'username': 'user',
-            'email': 'user@vulnhub.com',
+            'email': 'user@safebuyr.com',
             'password': hash_password_weak('password'),
             'is_admin': False
         },
@@ -409,7 +409,7 @@ def seed_reviews():
 def seed_all():
     """Seed entire database"""
     print("\n" + "="*60)
-    print("VulnHub E-commerce - Database Seeding")
+    print("SafeBuyr E-commerce - Database Seeding")
     print("="*60 + "\n")
     
     with app.app_context():

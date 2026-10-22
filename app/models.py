@@ -1,5 +1,5 @@
 """
-Database Models for VulnHub E-commerce Application
+Database Models for SafeBuyr E-commerce Application
 
 This file contains all SQLAlchemy models for:
 - Users (authentication)

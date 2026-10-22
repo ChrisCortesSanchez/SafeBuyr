@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Seed data for SECURE VulnHub E-commerce database
+Seed data for SECURE SafeBuyr E-commerce database
 Uses bcrypt for password hashing
 
-IMPORTANT: Run from VulnHub root directory!
+IMPORTANT: Run from SafeBuyr root directory!
 python app/secured/data/seed_data_secure.py
 """
 
@@ -64,31 +64,31 @@ def seed_database():
             {
                 'username': 'admin',
                 'password': 'admin123',
-                'email': 'admin@vulnhub.local',
+                'email': 'admin@safebuyr.local',
                 'is_admin': True
             },
             {
                 'username': 'user',
                 'password': 'password',
-                'email': 'user@vulnhub.local',
+                'email': 'user@safebuyr.local',
                 'is_admin': False
             },
             {
                 'username': 'alice',
                 'password': 'alice',
-                'email': 'alice@vulnhub.local',
+                'email': 'alice@safebuyr.local',
                 'is_admin': False
             },
             {
                 'username': 'bob',
                 'password': 'bob',
-                'email': 'bob@vulnhub.local',
+                'email': 'bob@safebuyr.local',
                 'is_admin': False
             },
             {
                 'username': 'charlie',
                 'password': 'charlie',
-                'email': 'charlie@vulnhub.local',
+                'email': 'charlie@safebuyr.local',
                 'is_admin': False
             }
         ]

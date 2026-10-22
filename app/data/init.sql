@@ -1,5 +1,5 @@
 -- ============================================================================
--- VulnHub E-commerce Database Schema
+-- SafeBuyr E-commerce Database Schema
 -- ============================================================================
 -- 
 -- This file documents the database schema. 

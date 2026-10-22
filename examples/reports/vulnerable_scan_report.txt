@@ -1,7 +1,7 @@
 
 ======================================================================
 SECURITY ASSESSMENT REPORT
-VulnHub E-commerce Application
+SafeBuyr E-commerce Application
 ======================================================================
 
 SCAN DETAILS

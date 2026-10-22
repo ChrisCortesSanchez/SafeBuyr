@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VulnHub E-commerce Application
+SafeBuyr E-commerce Application
 Main Flask application file
 
 DISCLAIMER: This application is intentionally vulnerable for educational purposes.
@@ -413,7 +413,7 @@ if __name__ == '__main__':
     # Display startup message
     mode = "SECURE" if SECURE_MODE else "VULNERABLE"
     print(f"\n{'='*60}")
-    print(f"VulnHub E-commerce - Running in {mode} mode")
+    print(f"SafeBuyr E-commerce - Running in {mode} mode")
     print(f"{'='*60}\n")
     
     if not SECURE_MODE:

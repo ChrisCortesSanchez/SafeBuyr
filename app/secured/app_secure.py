@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-VulnHub E-commerce - SECURE Implementation
-Author: Chris Cortes
+SafeBuyr E-commerce - SECURE Implementation
 
-This is the secure version of the VulnHub e-commerce application.
+This is the secure version of the SafeBuyr e-commerce application.
 All vulnerabilities have been remediated with security best practices:
 
 1. SQL Injection → Parameterized queries
@@ -441,7 +440,7 @@ def server_error(e):
 
 if __name__ == '__main__':
     print("\n" + "=" * 60)
-    print("VulnHub E-commerce - Running in SECURE mode")
+    print("SafeBuyr E-commerce - Running in SECURE mode")
     print("=" * 60)
     print("\n✅ All security vulnerabilities have been remediated:")
     print("   • SQL Injection → Parameterized queries")
