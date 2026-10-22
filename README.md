@@ -118,7 +118,10 @@ SafeBuyr/
 | VULN-006 | Missing Security Headers: no defense-in-depth layer | MEDIUM | A05:2021 |
 
 All six are detected and scored by the scanner. See [docs/SECURITY.md](docs/SECURITY.md)
-for the code-level fix behind each one.
+for the code-level fix behind each one, and [docs/GROUND_TRUTH.md](docs/GROUND_TRUTH.md)
+for the full planted-vulnerability inventory (these six plus the hardcoded secret
+key, open redirect, debug mode, and a vulnerable dependency) used as the scoring
+oracle for scanner and tool comparisons.
 
 ### Fixes Implemented
 
@@ -246,7 +249,7 @@ python scanner/vulnerability_scanner.py http://localhost:5002
 ```
 ======================================================================
                VULNERABILITY SCANNER
-            VulnHub E-commerce Assessment
+            SafeBuyr E-commerce Assessment
 ======================================================================
 Target: http://localhost:5001
 
