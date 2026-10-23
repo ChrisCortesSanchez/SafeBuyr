@@ -6,39 +6,6 @@ way?" should be answerable from a row here. Newest entries at the top.
 
 ---
 
-## 2026-10-21 — Do **not** plant a vulnerable dependency as a ground-truth flaw
-
-**Picked:** Keep `requirements.txt` on current, non-vulnerable pins. Ground
-truth covers 9 application flaws (VULN-001…009); no software-composition (SCA)
-row.
-
-**Rejected:** Adding `PyYAML==5.3.1` (CVE-2020-14343) as VULN-008 to seed a
-future SCA scanner phase.
-
-**Why:** A vulnerable dependency is a one-line, low-skill plant and an even
-easier fix (`pip install -U`), so it adds little evidence of security depth
-compared with the injection/authz/crypto flaws already planted. It was also
-*unreachable* (declared but never imported), which would have made it a weak,
-arguably false-positive demo. If an SCA phase is added later, prefer pinning an
-**already-used** package (e.g. `requests`) to a known-vulnerable version so the
-finding is genuinely reachable. See [GROUND_TRUTH.md](GROUND_TRUTH.md).
-
----
-
-## 2026-10-21 — Rename the project VulnHub → SafeBuyr
-
-**Picked:** Replace every `VulnHub`/`vulnhub` mention with `SafeBuyr`/`safebuyr`
-across code, scanner, exploits, docs, `docker-compose.yml` (service, container,
-and network names), seed emails (`@safebuyr.*`), and example reports.
-
-**Rejected:** Leaving legacy branding in banners/docstrings.
-
-**Why:** The repo was renamed but stray legacy strings remained, which reads as
-unfinished to anyone reviewing the project. `.db` files are not tracked and no
-test asserts on email values, so the rename is safe and self-contained.
-
----
-
 ## 2026-10-21 — Harden the two remaining bugs in the "hardened" app
 
 **Picked:** In `app/secured/app_secure.py`, validate the login `next` parameter
