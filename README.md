@@ -120,8 +120,8 @@ SafeBuyr/
 All six are detected and scored by the scanner. See [docs/SECURITY.md](docs/SECURITY.md)
 for the code-level fix behind each one, and [docs/GROUND_TRUTH.md](docs/GROUND_TRUTH.md)
 for the full planted-vulnerability inventory (these six plus the hardcoded secret
-key, open redirect, debug mode, and a vulnerable dependency) used as the scoring
-oracle for scanner and tool comparisons.
+key, open redirect, and debug mode) used as the scoring oracle for scanner and
+tool comparisons.
 
 ### Fixes Implemented
 
@@ -295,6 +295,62 @@ python exploits/all_in_one.py
 All exploit scripts target the vulnerable version by default and accept an
 optional target URL as the first argument. Run them against the hardened
 version to confirm each fix blocks the attack.
+
+---
+
+## Testing
+
+The regression suites are **integration tests**: they exercise the running apps
+over HTTP, so both apps must be up before `pytest` runs. The vulnerable suite
+confirms each flaw is still present; the hardened suite confirms each fix blocks
+the attack; the scanner suite confirms detection logic.
+
+The `makefile` wraps the whole flow (all commands use the project venv):
+
+```bash
+make setup           # one time: create venv, install deps, seed both databases
+make run-background  # start vulnerable (5001) + hardened (5002) in the background
+make test            # run all three regression suites against the running apps
+make stop            # stop both background apps
+```
+
+Or run everything end-to-end in a single command (reset DBs → start → test →
+scan → stop):
+
+```bash
+make full-test
+```
+
+Individual suites (apps must already be running via `make run-background`):
+
+```bash
+make test-vuln       # tests/test_vulnerable_regress.py  → vulnerable app on 5001
+make test-secure     # tests/test_secure_regress.py      → hardened app on 5002
+make test-scanner    # tests/test_scanner_regress.py     → scanner detection logic
+make test-coverage   # all suites with an HTML coverage report in htmlcov/
+```
+
+<details>
+<summary>Manual equivalent without <code>make</code></summary>
+
+```bash
+# 1. Seed both databases
+venv/bin/python -m app.data.seed_data
+venv/bin/python -m app.secured.data.seed_data_secure
+
+# 2. Start each app in its own terminal (or background them)
+venv/bin/python -m app.app             # vulnerable, port 5001
+venv/bin/python -m app.secured.app_secure  # hardened,  port 5002
+
+# 3. With both running, run the suites
+venv/bin/python -m pytest tests/ -v
+```
+
+</details>
+
+A connection-refused error from `pytest` almost always means an app isn't
+running — start both before testing. The same sequence runs automatically in
+CI on every push and pull request (see `.github/workflows/ci.yml`).
 
 ---
 
