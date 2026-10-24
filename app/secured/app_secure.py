@@ -12,7 +12,6 @@ All vulnerabilities have been remediated with security best practices:
 5. CSRF → Flask-WTF CSRF protection
 6. Security Headers → Comprehensive header configuration
 
-This demonstrates understanding of both offensive and defensive security.
 """
 
 from flask import Flask, render_template, request, redirect, url_for, session, abort, flash
