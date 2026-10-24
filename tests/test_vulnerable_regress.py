@@ -175,7 +175,9 @@ class TestSecurityHeadersRegression:
 def test_vulnerable_version_accessible():
     """Sanity check: vulnerable version is running"""
     response = requests.get(BASE_URL)
-    assert response.status_code == 200, "Vulnerable application should be accessible"
+    # INTENTIONAL FAILURE — branch-protection evidence only. Proves a failing
+    # required check blocks the merge button. Revert by closing this PR.
+    assert response.status_code == 999, "Intentional failing assertion (branch-protection test)"
     print("✓ Vulnerable version is accessible")
 
 
